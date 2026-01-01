@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tạo video AI từ văn bản với công nghệ mới nhất - Miễn phí, không giới hạn">
+  <meta name="keywords" content="AI video, text to video, Hugging Face, LTX Video, CogVideoX">
+  <title>VideoAI - Tạo Video từ Văn Bản bằng AI</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/index.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="/" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="logo-text">Video<span class="logo-highlight">AI</span></span>
+        </a>
+        <nav class="nav">
+          <a href="#features" class="nav-link">Tính năng</a>
+          <a href="#how-it-works" class="nav-link">Cách hoạt động</a>
+          <a href="#gallery" class="nav-link">Thư viện</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn btn-ghost" id="settingsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>🎬 Chế độ Demo - Thêm API key trong Cài đặt để dùng AI thực</span>
+          </div>
+          <h1 class="hero-title">
+            Biến <span class="text-gradient">Ý Tưởng</span> thành
+            <span class="text-gradient">Video AI</span>
+          </h1>
+          <p class="hero-subtitle">
+            Nhập văn bản mô tả, AI sẽ tạo video cho bạn trong vài phút.
+            Miễn phí, không giới hạn, sử dụng công nghệ mới nhất 2024.
+          </p>
+
+          <!-- Main Generator Form -->
+          <div class="generator-card" id="generatorCard">
+            <div class="generator-header">
+              <div class="model-selector">
+                <label>Model AI:</label>
+                <select id="modelSelect" class="select">
+                  <option value="minimax">Minimax Hailuo (6s video)</option>
+                  <option value="luma">Luma Dream Machine</option>
+                  <option value="kling">Kling AI</option>
+                </select>
+              </div>
+              <div class="aspect-ratio-selector">
+                <label>Tỷ lệ:</label>
+                <div class="ratio-buttons">
+                  <button class="ratio-btn active" data-ratio="16:9">16:9</button>
+                  <button class="ratio-btn" data-ratio="9:16">9:16</button>
+                  <button class="ratio-btn" data-ratio="1:1">1:1</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="prompt-container">
+              <textarea id="promptInput" class="prompt-input"
+                placeholder="Mô tả video bạn muốn tạo... Ví dụ: Một con mèo đang chơi đùa trong vườn hoa, ánh nắng chiều, phong cách cinematic"
+                rows="3"></textarea>
+              <div class="prompt-footer">
+                <span class="char-count"><span id="charCount">0</span> / 500</span>
+                <button class="btn btn-primary btn-generate" id="generateBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                  <span>Tạo Video</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state hidden" id="loadingState">
+              <div class="loading-animation">
+                <div class="loading-circle"></div>
+                <div class="loading-circle"></div>
+                <div class="loading-circle"></div>
+              </div>
+              <p class="loading-text">Đang tạo video của bạn...</p>
+              <p class="loading-subtext" id="loadingSubtext">Quá trình này có thể mất 1-3 phút</p>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+
+            <!-- Result State -->
+            <div class="result-state hidden" id="resultState">
+              <div class="video-container">
+                <video id="resultVideo" controls playsinline></video>
+              </div>
+              <div class="result-actions">
+                <button class="btn btn-secondary" id="downloadBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span>Tải xuống</span>
+                </button>
+                <button class="btn btn-ghost" id="newVideoBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <span>Tạo mới</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">Tính năng <span class="text-gradient">Nổi bật</span></h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3>Tạo video nhanh</h3>
+            <p>Chỉ cần 1-3 phút để tạo video chất lượng cao từ văn bản mô tả</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>Nhiều AI Models</h3>
+            <p>Lựa chọn từ các model AI hàng đầu: LTX-Video, CogVideoX, HunyuanVideo</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h3>Miễn phí & An toàn</h3>
+            <p>Sử dụng hoàn toàn miễn phí, dữ liệu được bảo mật và không lưu trữ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">Cách <span class="text-gradient">Hoạt động</span></h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Nhập Prompt</h3>
+            <p>Mô tả chi tiết video bạn muốn tạo bằng văn bản</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>AI Xử lý</h3>
+            <p>AI phân tích và tạo video dựa trên mô tả của bạn</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Nhận Video</h3>
+            <p>Xem trước và tải xuống video của bạn</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <h2 class="section-title">Thư viện <span class="text-gradient">Video</span></h2>
+        <p class="section-subtitle">Các video bạn đã tạo</p>
+        <div class="gallery-grid" id="galleryGrid">
+          <div class="gallery-empty" id="galleryEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+              <line x1="7" y1="2" x2="7" y2="22" />
+              <line x1="17" y1="2" x2="17" y2="22" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <line x1="2" y1="7" x2="7" y2="7" />
+              <line x1="2" y1="17" x2="7" y2="17" />
+              <line x1="17" y1="17" x2="22" y2="17" />
+              <line x1="17" y1="7" x2="22" y2="7" />
+            </svg>
+            <p>Chưa có video nào</p>
+            <span>Tạo video đầu tiên của bạn ngay!</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <a href="/" class="logo">
+              <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <span class="logo-text">Video<span class="logo-highlight">AI</span></span>
+            </a>
+            <p>Tạo video AI miễn phí với công nghệ mới nhất</p>
+          </div>
+          <div class="footer-links">
+            <h4>Models</h4>
+            <a href="https://huggingface.co/spaces/Lightricks/LTX-Video-Playground" target="_blank">LTX-Video</a>
+            <a href="https://huggingface.co/THUDM/CogVideoX-5b" target="_blank">CogVideoX</a>
+            <a href="https://github.com/Tencent/HunyuanVideo" target="_blank">HunyuanVideo</a>
+          </div>
+          <div class="footer-links">
+            <h4>Resources</h4>
+            <a href="https://huggingface.co" target="_blank">Hugging Face</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 VideoAI. Powered by Hugging Face Spaces.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div class="modal hidden" id="settingsModal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Cài đặt</h3>
+          <button class="modal-close" id="closeSettings">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-item">
+            <label for="hfToken">Replicate API Token</label>
+            <input type="password" id="hfToken" class="input" placeholder="r8_xxxxxxxxxxxxxxxx">
+            <p class="setting-hint">
+              Để tạo video AI thực sự, bạn cần API key từ <a href="https://replicate.com" target="_blank"
+                style="color: #7c3aed;">replicate.com</a><br>
+              Không có key? Ứng dụng sẽ chạy ở chế độ Demo với video mẫu.
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="saveSettings">Lưu cài đặt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
