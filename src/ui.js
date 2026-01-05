@@ -324,7 +324,28 @@ function createGalleryItem(item) {
 
     // Hover to play
     const video = div.querySelector('video');
-    div.addEventListener('mouseenter', () => video.play());
+
+    // Handle expired/invalid video URLs
+    video.addEventListener('error', () => {
+        console.warn('Video failed to load:', item.videoUrl);
+        // Replace video with placeholder
+        video.style.display = 'none';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'video-expired';
+        placeholder.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>Video đã hết hạn</span>
+        `;
+        video.parentElement.insertBefore(placeholder, video);
+    });
+
+    div.addEventListener('mouseenter', () => {
+        if (!video.error) video.play().catch(() => { });
+    });
     div.addEventListener('mouseleave', () => {
         video.pause();
         video.currentTime = 0;
